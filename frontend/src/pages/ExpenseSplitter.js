@@ -85,10 +85,9 @@ export default function ExpenseSplitter() {
             }}
           />
 
-          <label>Enter Expenses</label>
           <input
             type="text"
-            placeholder="Example: 120, 450, 90"
+            placeholder="Enter Expenses Example: 120, 450, 90"
             value={expenses}
             onChange={(e) => {
               setExpenses(e.target.value);
