@@ -76,7 +76,7 @@ button:hover {
 
   .expense-card,
   .result-card {
-    width: 90%;
+    width: 50%;
     padding: 25px;
     border-radius: 16px;
   }
