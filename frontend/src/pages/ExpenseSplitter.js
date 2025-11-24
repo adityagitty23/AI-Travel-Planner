@@ -58,7 +58,7 @@ export default function ExpenseSplitter() {
   return (
     <div className={`expense-container ${darkMode ? "dark" : ""}`}>
       <div className="top-bar">
-        <h1 className="expense-title">💰 Expense Splitter</h1>
+       
 
         <button className="dark-toggle" onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? "☀️" : "🌙"}
@@ -72,6 +72,7 @@ export default function ExpenseSplitter() {
         </div>
       ) : (
         <div className="expense-card">
+           <h1 className="expense-title">💰 Expense Splitter</h1>
           <label>Number of People</label>
           <input
             type="number"
