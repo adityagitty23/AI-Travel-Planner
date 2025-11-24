@@ -85,7 +85,7 @@ export default function ExpenseSplitter() {
             }}
           />
 
-          <label>Enter-Expenses (comma separated)</label>
+          <label>Enter Expenses</label>
           <input
             type="text"
             placeholder="Example: 120, 450, 90"
