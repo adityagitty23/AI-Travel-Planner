@@ -5,15 +5,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="*", methods=["POST", "GET", "OPTIONS"])
 
 API_URL = "https://models.inference.ai.azure.com/chat/completions"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-@app.route("/api/travel-plan", methods=["POST", "GET"])
+@app.route("/api/travel-plan", methods=["POST", "OPTIONS"])
 def travel_plan():
-    if request.method == "GET":
-        return jsonify({"message": "Travel Plan API running"})
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
 
     data = request.json
     location = data.get("location", "Not provided")
@@ -23,37 +23,10 @@ def travel_plan():
 
     prompt = f"""
     You are a travel planning assistant.
-    Return valid JSON only. Structure:
-    {{
-      "budget_breakdown": {{
-        "accommodation": {{ "per_day": number, "total": number }},
-        "food": {{ "per_day": number, "total": number }},
-        "transport": {{ "per_day": number, "total": number }},
-        "entry_fees": {{ "per_day": number, "total": number }},
-        "misc": {{ "per_day": number, "total": number }}
-      }},
-      "itinerary": [
-        {{
-          "day": number,
-          "title": string,
-          "places": [string, string, string],
-          "food": [string, string]
-        }}
-      ]
-    }}
-
-    DO NOT add explanation text. JSON ONLY.
-
-    Location: {location}
-    Days: {days}
-    Budget: {budget}
-    Preferences: {preferences}
+    Return valid JSON only. ...
     """
 
-    payload = {
-        "model": "gpt-4.1",
-        "messages": [{"role": "user", "content": prompt}]
-    }
+    payload = {"model": "gpt-4.1", "messages": [{"role":"user","content":prompt}]}
 
     try:
         response = requests.post(
@@ -67,17 +40,14 @@ def travel_plan():
 
         reply_text = response.json()["choices"][0]["message"]["content"]
         reply_json = json.loads(reply_text)
-
         return jsonify(reply_json)
 
     except Exception as e:
-        return jsonify({"error": "Failed to generate plan", "details": str(e)}), 500
-
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/")
 def home():
-    return jsonify({"message": "AI Backend Running Successfully!"})
-
+    return jsonify({"server": "running"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
