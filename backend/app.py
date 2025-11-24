@@ -5,7 +5,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
-CORS(app, origins="*", methods=["POST", "GET", "OPTIONS"])
+
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "OPTIONS"]
+)
 
 API_URL = "https://models.inference.ai.azure.com/chat/completions"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
@@ -23,24 +30,43 @@ def travel_plan():
 
     prompt = f"""
     You are a travel planning assistant.
-    Return valid JSON only. ...
+    Return valid JSON only.
+    Format:
+    {{
+      "budget_breakdown": {{
+        "accommodation": {{ "per_day": number, "total": number }},
+        "food": {{ "per_day": number, "total": number }},
+        "transport": {{ "per_day": number, "total": number }},
+        "entry_fees": {{ "per_day": number, "total": number }},
+        "misc": {{ "per_day": number, "total": number }}
+      }},
+      "itinerary": [
+        {{
+          "day": number,
+          "title": "string",
+          "places": ["list"],
+          "food": ["list"]
+        }}
+      ]
+    }}
+    Ensure response is valid JSON and contains no text outside curly braces.
+    Location: {location}, Days: {days}, Budget: {budget}, Preferences: {preferences}
     """
 
-    payload = {"model": "gpt-4.1", "messages": [{"role":"user","content":prompt}]}
+    payload = {
+        "model": "gpt-4.1",
+        "messages": [{"role": "user", "content": prompt}]
+    }
 
     try:
         response = requests.post(
             API_URL,
-            headers={
-                "Authorization": f"Bearer {GITHUB_TOKEN}",
-                "Content-Type": "application/json"
-            },
+            headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
             json=payload
         )
 
         reply_text = response.json()["choices"][0]["message"]["content"]
-        reply_json = json.loads(reply_text)
-        return jsonify(reply_json)
+        return jsonify(json.loads(reply_text))
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
