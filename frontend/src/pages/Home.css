@@ -1,0 +1,165 @@
+.home-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #4e65ff, #92effd);
+  transition: 0.4s;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg, #4e65ff, #92effd);
+
+}
+body.dark-mode {
+  background: #121212;
+  color: white;
+}
+
+
+/* Dark Mode */
+.home-container.dark {
+  background: linear-gradient(135deg, #0f0f0f, #232526);
+}
+
+.dark-toggle {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  background: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  font-size: smaller;
+  padding: 5px;
+  color: #0f0f0f;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bolder;
+  transition: 0.3s;
+  font-family: "Poppins", sans-serif;
+}
+
+.home-container.dark .dark-toggle {
+  background: #222;
+  color: #fff;
+}
+
+.lottie-animation {
+  width: 250px;
+  margin: 0 auto 10px;
+}
+
+.home-card {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  width: 450px;
+  text-align: center;
+}
+
+.home-container.dark .home-card {
+  background: rgba(30, 30, 30, 0.4);
+}
+
+.home-title {
+  color: white;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.home-subtext {
+  color: white;
+  opacity: 0.8;
+}
+
+.home-buttons {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.home-btn {
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.primary-btn {
+  background: white;
+  color: #4e65ff;
+}
+
+.secondary-btn {
+  background: #141e30;
+  color: white;
+}
+
+.home-btn:hover {
+  transform: translateY(-3px);
+}
+.lottie-animation {
+  width: 260px;
+  margin: 0 auto;
+}
+
+/* ---------- RESPONSIVE MOBILE VIEW ---------- */
+@media (max-width: 768px) {
+  .home-card {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .home-title {
+    font-size: 1.8rem;
+  }
+
+  .home-subtext {
+    font-size: 0.9rem;
+  }
+
+  .home-buttons {
+    gap: 10px;
+  }
+
+  .home-btn {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .dark-toggle {
+    width: 40px;
+    height: 40px;
+    right: 20px;
+    top: 15px;
+  }
+
+  .lottie-animation {
+    width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-title {
+    font-size: 1.5rem;
+  }
+
+  .home-card {
+    padding: 18px;
+  }
+
+  .lottie-animation {
+    width: 150px;
+  }
+
+  .home-btn {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+}
